@@ -1,0 +1,23 @@
+import spacy
+import json
+from spacy.tokenizer import Tokenizer
+from spacy.lang.en import English
+
+nlp = spacy.load("en_core_web_sm")
+tokenizer = Tokenizer(nlp.vocab)
+nlp.add_pipe("emoji", first=True)
+
+f = open('training/EXIST2023_training.json')
+training = json.load(f)
+
+doc = nlp(training)
+
+print('working')
+
+for tweet in training:
+	for letter in tweet:
+		print(letter)
+		if letter._.is_emoji:
+			letter.replace(letter, letter._.emoji_desc)
+
+print(training)
